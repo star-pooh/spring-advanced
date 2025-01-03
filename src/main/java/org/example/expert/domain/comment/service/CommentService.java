@@ -1,7 +1,5 @@
 package org.example.expert.domain.comment.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.comment.dto.request.CommentSaveRequest;
 import org.example.expert.domain.comment.dto.response.CommentResponse;
@@ -17,6 +15,9 @@ import org.example.expert.domain.user.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -25,6 +26,14 @@ public class CommentService {
     private final TodoRepository todoRepository;
     private final CommentRepository commentRepository;
 
+    /**
+     * 댓글 생성
+     *
+     * @param authUser           로그인한 유저 정보
+     * @param todoId             일정 ID
+     * @param commentSaveRequest 댓글 생성에 필요한 요청 데이터
+     * @return 생성된 댓글 정보
+     */
     @Transactional
     public CommentSaveResponse saveComment(AuthUser authUser, long todoId, CommentSaveRequest commentSaveRequest) {
         User user = User.fromAuthUser(authUser);
@@ -46,6 +55,12 @@ public class CommentService {
         );
     }
 
+    /**
+     * 댓글 조회
+     *
+     * @param todoId 일정 ID
+     * @return 조회된 댓글 정보
+     */
     public List<CommentResponse> getComments(long todoId) {
         List<Comment> commentList = commentRepository.findAllByTodoId(todoId);
 

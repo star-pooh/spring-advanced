@@ -15,6 +15,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidRequestException.class)
+    // TODO : 네이밍 컨벤션
     public ResponseEntity<Map<String, Object>> invalidRequestExceptionException(InvalidRequestException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         return getErrorResponse(status, ex.getMessage());

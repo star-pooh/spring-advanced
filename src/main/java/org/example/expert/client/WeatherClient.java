@@ -22,11 +22,18 @@ public class WeatherClient {
         this.restTemplate = builder.build();
     }
 
+    /**
+     * 오늘의 날씨 데이터 조회
+     *
+     * @return 오늘의 날씨 데이터
+     */
     public String getTodayWeather() {
         ResponseEntity<WeatherDto[]> responseEntity =
                 restTemplate.getForEntity(buildWeatherApiUri(), WeatherDto[].class);
 
         WeatherDto[] weatherArray = responseEntity.getBody();
+
+        // TODO : if-else 수정
         if (!HttpStatus.OK.equals(responseEntity.getStatusCode())) {
             throw new ServerException("날씨 데이터를 가져오는데 실패했습니다. 상태 코드: " + responseEntity.getStatusCode());
         } else {

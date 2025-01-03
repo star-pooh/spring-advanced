@@ -1,7 +1,5 @@
 package org.example.expert.domain.manager.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
@@ -19,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -28,6 +29,14 @@ public class ManagerService {
     private final UserRepository userRepository;
     private final TodoRepository todoRepository;
 
+    /**
+     * 관리자 생성
+     *
+     * @param authUser           로그인한 유저 정보
+     * @param todoId             일정 ID
+     * @param managerSaveRequest 관리자 생성에 필요한 요청 데이터
+     * @return 생성된 관리 정보
+     */
     @Transactional
     public ManagerSaveResponse saveManager(AuthUser authUser, long todoId, ManagerSaveRequest managerSaveRequest) {
         // 일정을 만든 유저
@@ -55,6 +64,12 @@ public class ManagerService {
         );
     }
 
+    /**
+     * 관리자 조회
+     *
+     * @param todoId 일정 ID
+     * @return 조회된 관리자 정보
+     */
     public List<ManagerResponse> getManagers(long todoId) {
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new InvalidRequestException("Todo not found"));
@@ -72,6 +87,13 @@ public class ManagerService {
         return dtoList;
     }
 
+    /**
+     * 관리자 삭제
+     *
+     * @param userId    유저 ID
+     * @param todoId    일정 ID
+     * @param managerId 관리자 ID
+     */
     @Transactional
     public void deleteManager(long userId, long todoId, long managerId) {
         User user = userRepository.findById(userId)

@@ -14,7 +14,14 @@ public class UserAdminController {
 
     private final UserAdminService userAdminService;
 
+    /**
+     * 유저 권한 변경
+     *
+     * @param userId                유저 ID
+     * @param userRoleChangeRequest 유저 권한 변경에 필요한 요청 데이터
+     */
     @PatchMapping("/admin/users/{userId}")
+    // TODO : requestBody에 valid 필요?
     public void changeUserRole(@PathVariable long userId, @RequestBody UserRoleChangeRequest userRoleChangeRequest) {
         userAdminService.changeUserRole(userId, userRoleChangeRequest);
     }

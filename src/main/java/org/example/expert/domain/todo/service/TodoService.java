@@ -25,6 +25,13 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private final WeatherClient weatherClient;
 
+    /**
+     * 일정 생성
+     *
+     * @param authUser        로그인한 유저 정보
+     * @param todoSaveRequest 일정 생성에 필요한 요청 데이터
+     * @return 생성된 일정 정보
+     */
     @Transactional
     public TodoSaveResponse saveTodo(AuthUser authUser, TodoSaveRequest todoSaveRequest) {
         User user = User.fromAuthUser(authUser);
@@ -48,11 +55,19 @@ public class TodoService {
         );
     }
 
+    /**
+     * 전체 일정 조회
+     *
+     * @param page 페이지 번호
+     * @param size 페이지 크기
+     * @return 조회된 일정 정보
+     */
     public Page<TodoResponse> getTodos(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
 
+        // TODO : 람다식으로 정리?
         return todos.map(todo -> new TodoResponse(
                 todo.getId(),
                 todo.getTitle(),
@@ -64,12 +79,19 @@ public class TodoService {
         ));
     }
 
+    /**
+     * 특정 일정 조회
+     *
+     * @param todoId 일정 ID
+     * @return 조회된 일정 정보
+     */
     public TodoResponse getTodo(long todoId) {
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new InvalidRequestException("Todo not found"));
 
         User user = todo.getUser();
 
+        // TODO : 람다식으로 정리?
         return new TodoResponse(
                 todo.getId(),
                 todo.getTitle(),

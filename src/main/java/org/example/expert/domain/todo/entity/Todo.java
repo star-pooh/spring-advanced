@@ -17,7 +17,8 @@ import java.util.List;
 @Table(name = "todos")
 public class Todo extends Timestamped {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String contents;
@@ -41,6 +42,7 @@ public class Todo extends Timestamped {
         this.managers.add(new Manager(user, this));
     }
 
+    // TODO : 불필요한 코드?
     public void update(String title, String contents) {
         this.title = title;
         this.contents = contents;

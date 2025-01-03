@@ -12,6 +12,11 @@ public class CommentAdminController {
 
     private final CommentAdminService commentAdminService;
 
+    /**
+     * 댓글 삭제 API
+     *
+     * @param commentId 댓글 ID
+     */
     @DeleteMapping("/admin/comments/{commentId}")
     public void deleteComment(@PathVariable long commentId) {
         commentAdminService.deleteComment(commentId);

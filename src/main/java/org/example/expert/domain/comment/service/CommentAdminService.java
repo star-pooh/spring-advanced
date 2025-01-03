@@ -11,6 +11,11 @@ public class CommentAdminService {
 
     private final CommentRepository commentRepository;
 
+    /**
+     * 댓글 삭제
+     *
+     * @param commentId 댓글 ID
+     */
     @Transactional
     public void deleteComment(long commentId) {
         commentRepository.deleteById(commentId);

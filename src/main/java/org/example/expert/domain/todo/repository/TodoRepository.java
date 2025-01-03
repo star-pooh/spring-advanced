@@ -9,5 +9,6 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     Page<Todo> findAllByOrderByModifiedAtDesc(Pageable pageable);
 
+    // TODO : 불필요한 코드?
     int countById(Long todoId);
 }

@@ -18,11 +18,23 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * 유저 조회
+     *
+     * @param userId 유저 ID
+     * @return 조회된 유저 정보
+     */
     public UserResponse getUser(long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
         return new UserResponse(user.getId(), user.getEmail());
     }
 
+    /**
+     * 비밀번호 변경
+     *
+     * @param userId                    유저 ID
+     * @param userChangePasswordRequest 비밀번호 변경에 필요한 요청 데이터
+     */
     @Transactional
     public void changePassword(long userId, UserChangePasswordRequest userChangePasswordRequest) {
         if (userChangePasswordRequest.getNewPassword().length() < 8 ||
@@ -31,6 +43,7 @@ public class UserService {
             throw new InvalidRequestException("새 비밀번호는 8자 이상이어야 하고, 숫자와 대문자를 포함해야 합니다.");
         }
 
+        // TODO : early Return
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new InvalidRequestException("User not found"));
 
@@ -38,6 +51,7 @@ public class UserService {
             throw new InvalidRequestException("새 비밀번호는 기존 비밀번호와 같을 수 없습니다.");
         }
 
+        // TODO : 에러 메시지 수정
         if (!passwordEncoder.matches(userChangePasswordRequest.getOldPassword(), user.getPassword())) {
             throw new InvalidRequestException("잘못된 비밀번호입니다.");
         }

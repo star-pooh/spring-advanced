@@ -13,7 +13,8 @@ import org.example.expert.domain.user.entity.User;
 @Table(name = "comments")
 public class Comment extends Timestamped {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String contents;
 
@@ -31,6 +32,7 @@ public class Comment extends Timestamped {
         this.todo = todo;
     }
 
+    // TODO : 불필요한 코드?
     public void update(String contents) {
         this.contents = contents;
     }

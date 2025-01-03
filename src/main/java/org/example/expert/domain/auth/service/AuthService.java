@@ -24,6 +24,12 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
+    /**
+     * 회원 가입
+     *
+     * @param signupRequest 회원 가입에 필요한 요청 데이터
+     * @return 토큰
+     */
     @Transactional
     public SignupResponse signup(SignupRequest signupRequest) {
 
@@ -31,6 +37,7 @@ public class AuthService {
 
         UserRole userRole = UserRole.of(signupRequest.getUserRole());
 
+        // TODO : early return
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
             throw new InvalidRequestException("이미 존재하는 이메일입니다.");
         }
@@ -47,6 +54,12 @@ public class AuthService {
         return new SignupResponse(bearerToken);
     }
 
+    /**
+     * 로그인
+     *
+     * @param signinRequest 로그인에 필요한 요청 데이터
+     * @return 토큰
+     */
     public SigninResponse signin(SigninRequest signinRequest) {
         User user = userRepository.findByEmail(signinRequest.getEmail()).orElseThrow(
                 () -> new InvalidRequestException("가입되지 않은 유저입니다."));
