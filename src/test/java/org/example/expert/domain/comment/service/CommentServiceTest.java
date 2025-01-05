@@ -5,7 +5,7 @@ import org.example.expert.domain.comment.dto.response.CommentSaveResponse;
 import org.example.expert.domain.comment.entity.Comment;
 import org.example.expert.domain.comment.repository.CommentRepository;
 import org.example.expert.domain.common.dto.AuthUser;
-import org.example.expert.domain.common.exception.ServerException;
+import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.entity.User;
@@ -43,7 +43,7 @@ class CommentServiceTest {
         given(todoRepository.findById(anyLong())).willReturn(Optional.empty());
 
         // when
-        ServerException exception = assertThrows(ServerException.class, () -> {
+        InvalidRequestException exception = assertThrows(InvalidRequestException.class, () -> {
             commentService.saveComment(authUser, todoId, request);
         });
 
@@ -58,8 +58,8 @@ class CommentServiceTest {
         CommentSaveRequest request = new CommentSaveRequest("contents");
         AuthUser authUser = new AuthUser(1L, "email", UserRole.USER);
         User user = User.fromAuthUser(authUser);
-        Todo todo = new Todo("title", "title", "contents", user);
-        Comment comment = new Comment(request.getContents(), user, todo);
+        Todo todo = Todo.of("title", "title", "contents", user);
+        Comment comment = Comment.of(request.getContents(), user, todo);
 
         given(todoRepository.findById(anyLong())).willReturn(Optional.of(todo));
         given(commentRepository.save(any())).willReturn(comment);
