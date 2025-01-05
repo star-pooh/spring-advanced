@@ -47,7 +47,7 @@ public class CommentService {
         return CommentSaveResponse.of(
                 savedComment.getId(),
                 savedComment.getContents(),
-                new UserFindResponse(user.getId(), user.getEmail())
+                UserFindResponse.of(user.getId(), user.getEmail())
         );
     }
 

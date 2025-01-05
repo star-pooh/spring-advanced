@@ -23,7 +23,7 @@ public class CommentFindResponse {
         return new CommentFindResponse(
                 comment.getId(),
                 comment.getContents(),
-                new UserFindResponse(
+                UserFindResponse.of(
                         comment.getUser().getId(),
                         comment.getUser().getEmail()
                 )

@@ -46,7 +46,7 @@ public class TodoFindResponse {
                 todo.getTitle(),
                 todo.getContents(),
                 todo.getWeather(),
-                new UserFindResponse(
+                UserFindResponse.of(
                         todo.getUser().getId(),
                         todo.getUser().getEmail()
                 ),

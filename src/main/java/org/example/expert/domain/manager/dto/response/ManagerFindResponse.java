@@ -19,7 +19,7 @@ public class ManagerFindResponse {
     public static ManagerFindResponse toManagerFindResponse(Manager manager) {
         return new ManagerFindResponse(
                 manager.getId(),
-                new UserFindResponse(
+                UserFindResponse.of(
                         manager.getUser().getId(),
                         manager.getUser().getEmail()
                 )
