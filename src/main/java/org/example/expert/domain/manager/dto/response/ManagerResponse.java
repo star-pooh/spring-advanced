@@ -7,6 +7,7 @@ import org.example.expert.domain.user.dto.response.UserResponse;
 public class ManagerResponse {
 
     private final Long id;
+
     private final UserResponse user;
 
     public ManagerResponse(Long id, UserResponse user) {

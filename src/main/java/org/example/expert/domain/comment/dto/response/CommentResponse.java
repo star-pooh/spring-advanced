@@ -7,7 +7,9 @@ import org.example.expert.domain.user.dto.response.UserResponse;
 public class CommentResponse {
 
     private final Long id;
+
     private final String contents;
+    
     private final UserResponse user;
 
     public CommentResponse(Long id, String contents, UserResponse user) {

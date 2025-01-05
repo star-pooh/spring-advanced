@@ -36,8 +36,7 @@ public class ManagerController {
     public ResponseEntity<ManagerSaveResponse> saveManager(
             @Auth AuthUser authUser,
             @PathVariable long todoId,
-            @Valid @RequestBody ManagerSaveRequest managerSaveRequest
-    ) {
+            @Valid @RequestBody ManagerSaveRequest managerSaveRequest) {
         return ResponseEntity.ok(managerService.saveManager(authUser, todoId, managerSaveRequest));
     }
 
@@ -63,8 +62,7 @@ public class ManagerController {
     public void deleteManager(
             @RequestHeader("Authorization") String bearerToken,
             @PathVariable long todoId,
-            @PathVariable long managerId
-    ) {
+            @PathVariable long managerId) {
         // TODO : jwtUtil.substringToken?
         Claims claims = jwtUtil.extractClaims(bearerToken.substring(7));
         long userId = Long.parseLong(claims.getSubject());

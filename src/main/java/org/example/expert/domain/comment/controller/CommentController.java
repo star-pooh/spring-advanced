@@ -31,8 +31,7 @@ public class CommentController {
     public ResponseEntity<CommentSaveResponse> saveComment(
             @Auth AuthUser authUser,
             @PathVariable long todoId,
-            @Valid @RequestBody CommentSaveRequest commentSaveRequest
-    ) {
+            @Valid @RequestBody CommentSaveRequest commentSaveRequest) {
         return ResponseEntity.ok(commentService.saveComment(authUser, todoId, commentSaveRequest));
     }
 

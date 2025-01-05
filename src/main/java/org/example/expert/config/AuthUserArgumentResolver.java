@@ -31,8 +31,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
             @Nullable MethodParameter parameter,
             @Nullable ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest,
-            @Nullable WebDataBinderFactory binderFactory
-    ) {
+            @Nullable WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
         // JwtFilter 에서 set 한 userId, email, userRole 값을 가져옴

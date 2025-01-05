@@ -28,8 +28,7 @@ public class TodoController {
     @PostMapping("/todos")
     public ResponseEntity<TodoSaveResponse> saveTodo(
             @Auth AuthUser authUser,
-            @Valid @RequestBody TodoSaveRequest todoSaveRequest
-    ) {
+            @Valid @RequestBody TodoSaveRequest todoSaveRequest) {
         return ResponseEntity.ok(todoService.saveTodo(authUser, todoSaveRequest));
     }
 
@@ -45,8 +44,7 @@ public class TodoController {
     @GetMapping("/todos")
     public ResponseEntity<Page<TodoResponse>> getTodos(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
+            @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(todoService.getTodos(page, size));
     }
 
