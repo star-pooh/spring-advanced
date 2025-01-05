@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.manager.dto.request.ManagerSaveRequest;
-import org.example.expert.domain.manager.dto.response.ManagerResponse;
+import org.example.expert.domain.manager.dto.response.ManagerFindResponse;
 import org.example.expert.domain.manager.dto.response.ManagerSaveResponse;
 import org.example.expert.domain.manager.entity.Manager;
 import org.example.expert.domain.manager.repository.ManagerRepository;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
-import org.example.expert.domain.user.dto.response.UserResponse;
+import org.example.expert.domain.user.dto.response.UserFindResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -60,7 +60,7 @@ public class ManagerService {
 
         return new ManagerSaveResponse(
                 savedManagerUser.getId(),
-                new UserResponse(managerUser.getId(), managerUser.getEmail())
+                new UserFindResponse(managerUser.getId(), managerUser.getEmail())
         );
     }
 
@@ -70,18 +70,18 @@ public class ManagerService {
      * @param todoId 일정 ID
      * @return 조회된 관리자 정보
      */
-    public List<ManagerResponse> getManagers(long todoId) {
+    public List<ManagerFindResponse> findManagerByTodoId(long todoId) {
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new InvalidRequestException("Todo not found"));
 
         List<Manager> managerList = managerRepository.findAllByTodoId(todo.getId());
 
-        List<ManagerResponse> dtoList = new ArrayList<>();
+        List<ManagerFindResponse> dtoList = new ArrayList<>();
         for (Manager manager : managerList) {
             User user = manager.getUser();
-            dtoList.add(new ManagerResponse(
+            dtoList.add(new ManagerFindResponse(
                     manager.getId(),
-                    new UserResponse(user.getId(), user.getEmail())
+                    new UserFindResponse(user.getId(), user.getEmail())
             ));
         }
         return dtoList;

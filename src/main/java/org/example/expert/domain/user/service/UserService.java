@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.expert.config.PasswordEncoder;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
-import org.example.expert.domain.user.dto.response.UserResponse;
+import org.example.expert.domain.user.dto.response.UserFindResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -24,9 +24,9 @@ public class UserService {
      * @param userId 유저 ID
      * @return 조회된 유저 정보
      */
-    public UserResponse getUser(long userId) {
+    public UserFindResponse findUserById(long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
-        return new UserResponse(user.getId(), user.getEmail());
+        return new UserFindResponse(user.getId(), user.getEmail());
     }
 
     /**

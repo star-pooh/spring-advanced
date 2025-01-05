@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.annotation.Auth;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
-import org.example.expert.domain.todo.dto.response.TodoResponse;
+import org.example.expert.domain.todo.dto.response.TodoFindResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
 import org.example.expert.domain.todo.service.TodoService;
 import org.springframework.data.domain.Page;
@@ -32,20 +32,18 @@ public class TodoController {
         return ResponseEntity.ok(todoService.saveTodo(authUser, todoSaveRequest));
     }
 
-    // TODO : 변수명 수정
-
     /**
      * 전체 일정 조회 API
      *
-     * @param page 페이지 번호
-     * @param size 페이지 크기
+     * @param pageNum  페이지 번호
+     * @param pageSize 페이지 크기
      * @return 조회된 일정 정보
      */
     @GetMapping("/todos")
-    public ResponseEntity<Page<TodoResponse>> getTodos(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(todoService.getTodos(page, size));
+    public ResponseEntity<Page<TodoFindResponse>> findAllTodo(
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        return ResponseEntity.ok(todoService.findAllTodo(pageNum, pageSize));
     }
 
     /**
@@ -55,7 +53,7 @@ public class TodoController {
      * @return 조회된 일정 정보
      */
     @GetMapping("/todos/{todoId}")
-    public ResponseEntity<TodoResponse> getTodo(@PathVariable long todoId) {
-        return ResponseEntity.ok(todoService.getTodo(todoId));
+    public ResponseEntity<TodoFindResponse> findTodoById(@PathVariable long todoId) {
+        return ResponseEntity.ok(todoService.findTodoById(todoId));
     }
 }

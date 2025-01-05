@@ -1,7 +1,7 @@
 package org.example.expert.domain.user.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.expert.domain.user.dto.request.UserRoleChangeRequest;
+import org.example.expert.domain.user.dto.request.UserChangeRoleRequest;
 import org.example.expert.domain.user.service.UserAdminService;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,11 +18,11 @@ public class UserAdminController {
      * 유저 권한 변경
      *
      * @param userId                유저 ID
-     * @param userRoleChangeRequest 유저 권한 변경에 필요한 요청 데이터
+     * @param userChangeRoleRequest 유저 권한 변경에 필요한 요청 데이터
      */
     @PatchMapping("/admin/users/{userId}")
     // TODO : requestBody에 valid 필요?
-    public void changeUserRole(@PathVariable long userId, @RequestBody UserRoleChangeRequest userRoleChangeRequest) {
-        userAdminService.changeUserRole(userId, userRoleChangeRequest);
+    public void changeUserRole(@PathVariable long userId, @RequestBody UserChangeRoleRequest userChangeRoleRequest) {
+        userAdminService.changeUserRole(userId, userChangeRoleRequest);
     }
 }

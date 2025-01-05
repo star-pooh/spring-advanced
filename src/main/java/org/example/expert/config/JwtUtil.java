@@ -48,7 +48,7 @@ public class JwtUtil {
                         .compact();
     }
 
-    public String substringToken(String tokenValue) {
+    public String extractToken(String tokenValue) {
         if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
             return tokenValue.substring(7);
         }

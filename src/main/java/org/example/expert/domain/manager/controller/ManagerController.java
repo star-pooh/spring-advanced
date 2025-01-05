@@ -7,7 +7,7 @@ import org.example.expert.config.JwtUtil;
 import org.example.expert.domain.common.annotation.Auth;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.manager.dto.request.ManagerSaveRequest;
-import org.example.expert.domain.manager.dto.response.ManagerResponse;
+import org.example.expert.domain.manager.dto.response.ManagerFindResponse;
 import org.example.expert.domain.manager.dto.response.ManagerSaveResponse;
 import org.example.expert.domain.manager.service.ManagerService;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +47,8 @@ public class ManagerController {
      * @return 조회된 관리자 정보
      */
     @GetMapping("/todos/{todoId}/managers")
-    public ResponseEntity<List<ManagerResponse>> getMembers(@PathVariable long todoId) {
-        return ResponseEntity.ok(managerService.getManagers(todoId));
+    public ResponseEntity<List<ManagerFindResponse>> findManagerByTodoId(@PathVariable long todoId) {
+        return ResponseEntity.ok(managerService.findManagerByTodoId(todoId));
     }
 
     /**

@@ -1,7 +1,7 @@
 package org.example.expert.domain.todo.dto.response;
 
 import lombok.Getter;
-import org.example.expert.domain.user.dto.response.UserResponse;
+import org.example.expert.domain.user.dto.response.UserFindResponse;
 
 @Getter
 public class TodoSaveResponse {
@@ -14,9 +14,9 @@ public class TodoSaveResponse {
 
     private final String weather;
 
-    private final UserResponse user;
+    private final UserFindResponse user;
 
-    public TodoSaveResponse(Long id, String title, String contents, String weather, UserResponse user) {
+    public TodoSaveResponse(Long id, String title, String contents, String weather, UserFindResponse user) {
         this.id = id;
         this.title = title;
         this.contents = contents;
