@@ -25,7 +25,7 @@ public class User extends Timestamped {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    public User(String email, String password, UserRole userRole) {
+    private User(String email, String password, UserRole userRole) {
         this.email = email;
         this.password = password;
         this.userRole = userRole;
@@ -47,5 +47,9 @@ public class User extends Timestamped {
 
     public void updateRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public static User of(String email, String password, UserRole userRole) {
+        return new User(email, password, userRole);
     }
 }

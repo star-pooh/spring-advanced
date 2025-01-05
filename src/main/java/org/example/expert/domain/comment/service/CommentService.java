@@ -8,6 +8,7 @@ import org.example.expert.domain.comment.entity.Comment;
 import org.example.expert.domain.comment.repository.CommentRepository;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
+import org.example.expert.domain.common.util.ResponseMapper;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.dto.response.UserFindResponse;
@@ -15,7 +16,6 @@ import org.example.expert.domain.user.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,15 +40,11 @@ public class CommentService {
         Todo todo = todoRepository.findById(todoId).orElseThrow(() ->
                 new InvalidRequestException("Todo not found"));
 
-        Comment newComment = new Comment(
-                commentSaveRequest.getContents(),
-                user,
-                todo
-        );
+        Comment newComment = Comment.of(commentSaveRequest.getContents(), user, todo);
 
         Comment savedComment = commentRepository.save(newComment);
 
-        return new CommentSaveResponse(
+        return CommentSaveResponse.of(
                 savedComment.getId(),
                 savedComment.getContents(),
                 new UserFindResponse(user.getId(), user.getEmail())
@@ -64,16 +60,6 @@ public class CommentService {
     public List<CommentFindResponse> findAllComment(long todoId) {
         List<Comment> commentList = commentRepository.findAllByTodoId(todoId);
 
-        List<CommentFindResponse> dtoList = new ArrayList<>();
-        for (Comment comment : commentList) {
-            User user = comment.getUser();
-            CommentFindResponse dto = new CommentFindResponse(
-                    comment.getId(),
-                    comment.getContents(),
-                    new UserFindResponse(user.getId(), user.getEmail())
-            );
-            dtoList.add(dto);
-        }
-        return dtoList;
+        return ResponseMapper.mapToList(commentList, CommentFindResponse::of);
     }
 }

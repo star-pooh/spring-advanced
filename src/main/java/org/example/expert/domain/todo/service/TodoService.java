@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.expert.client.WeatherClient;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
+import org.example.expert.domain.common.util.ResponseMapper;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoFindResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
@@ -38,7 +39,7 @@ public class TodoService {
 
         String weather = weatherClient.getTodayWeather();
 
-        Todo newTodo = new Todo(
+        Todo newTodo = Todo.of(
                 todoSaveRequest.getTitle(),
                 todoSaveRequest.getContents(),
                 weather,
@@ -46,12 +47,12 @@ public class TodoService {
         );
         Todo savedTodo = todoRepository.save(newTodo);
 
-        return new TodoSaveResponse(
+        return TodoSaveResponse.of(
                 savedTodo.getId(),
                 savedTodo.getTitle(),
                 savedTodo.getContents(),
                 weather,
-                new UserFindResponse(user.getId(), user.getEmail())
+                UserFindResponse.of(user.getId(), user.getEmail())
         );
     }
 
@@ -67,16 +68,7 @@ public class TodoService {
 
         Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
 
-        // TODO : 람다식으로 정리?
-        return todos.map(todo -> new TodoFindResponse(
-                todo.getId(),
-                todo.getTitle(),
-                todo.getContents(),
-                todo.getWeather(),
-                new UserFindResponse(todo.getUser().getId(), todo.getUser().getEmail()),
-                todo.getCreatedAt(),
-                todo.getModifiedAt()
-        ));
+        return ResponseMapper.mapToPage(todos, TodoFindResponse::toTodoFindResponse);
     }
 
     /**
@@ -89,17 +81,6 @@ public class TodoService {
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new InvalidRequestException("Todo not found"));
 
-        User user = todo.getUser();
-
-        // TODO : 람다식으로 정리?
-        return new TodoFindResponse(
-                todo.getId(),
-                todo.getTitle(),
-                todo.getContents(),
-                todo.getWeather(),
-                new UserFindResponse(user.getId(), user.getEmail()),
-                todo.getCreatedAt(),
-                todo.getModifiedAt()
-        );
+        return TodoFindResponse.toTodoFindResponse(todo);
     }
 }

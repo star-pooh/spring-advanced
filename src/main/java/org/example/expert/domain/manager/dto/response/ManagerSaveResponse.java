@@ -10,8 +10,12 @@ public class ManagerSaveResponse {
 
     private final UserFindResponse user;
 
-    public ManagerSaveResponse(Long id, UserFindResponse user) {
+    private ManagerSaveResponse(Long id, UserFindResponse user) {
         this.id = id;
         this.user = user;
+    }
+
+    public static ManagerSaveResponse of(Long id, UserFindResponse user) {
+        return new ManagerSaveResponse(id, user);
     }
 }

@@ -27,7 +27,7 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "todo_id", nullable = false)
     private Todo todo;
 
-    public Comment(String contents, User user, Todo todo) {
+    private Comment(String contents, User user, Todo todo) {
         this.contents = contents;
         this.user = user;
         this.todo = todo;
@@ -36,5 +36,9 @@ public class Comment extends Timestamped {
     // TODO : 불필요한 코드?
     public void update(String contents) {
         this.contents = contents;
+    }
+
+    public static Comment of(String contents, User user, Todo todo) {
+        return new Comment(contents, user, todo);
     }
 }

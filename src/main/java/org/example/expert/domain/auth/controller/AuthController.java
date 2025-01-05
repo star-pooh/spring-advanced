@@ -9,10 +9,12 @@ import org.example.expert.domain.auth.dto.response.SignupResponse;
 import org.example.expert.domain.auth.service.AuthService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -23,7 +25,7 @@ public class AuthController {
      * @param signupRequest 회원 가입에 필요한 요청 데이터
      * @return 토큰
      */
-    @PostMapping("/auth/signup")
+    @PostMapping("/signup")
     public SignupResponse signup(@Valid @RequestBody SignupRequest signupRequest) {
         return authService.signup(signupRequest);
     }
@@ -34,7 +36,7 @@ public class AuthController {
      * @param signinRequest 로그인에 필요한 요청 데이터
      * @return 토큰
      */
-    @PostMapping("/auth/signin")
+    @PostMapping("/signin")
     public SigninResponse signin(@Valid @RequestBody SigninRequest signinRequest) {
         return authService.signin(signinRequest);
     }

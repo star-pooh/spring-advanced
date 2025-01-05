@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/todos")
 public class TodoController {
 
     private final TodoService todoService;
@@ -25,7 +26,7 @@ public class TodoController {
      * @param todoSaveRequest 일정 생성에 필요한 요청 데이터
      * @return 생성된 일정 정보
      */
-    @PostMapping("/todos")
+    @PostMapping
     public ResponseEntity<TodoSaveResponse> saveTodo(
             @Auth AuthUser authUser,
             @Valid @RequestBody TodoSaveRequest todoSaveRequest) {
@@ -39,7 +40,7 @@ public class TodoController {
      * @param pageSize 페이지 크기
      * @return 조회된 일정 정보
      */
-    @GetMapping("/todos")
+    @GetMapping
     public ResponseEntity<Page<TodoFindResponse>> findAllTodo(
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
@@ -52,7 +53,7 @@ public class TodoController {
      * @param todoId 일정 ID
      * @return 조회된 일정 정보
      */
-    @GetMapping("/todos/{todoId}")
+    @GetMapping("/{todoId}")
     public ResponseEntity<TodoFindResponse> findTodoById(@PathVariable long todoId) {
         return ResponseEntity.ok(todoService.findTodoById(todoId));
     }

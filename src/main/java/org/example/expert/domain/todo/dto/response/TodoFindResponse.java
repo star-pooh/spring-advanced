@@ -1,6 +1,7 @@
 package org.example.expert.domain.todo.dto.response;
 
 import lombok.Getter;
+import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.user.dto.response.UserFindResponse;
 
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public class TodoFindResponse {
 
     private final LocalDateTime modifiedAt;
 
-    public TodoFindResponse(
+    private TodoFindResponse(
             Long id,
             String title,
             String contents,
@@ -37,5 +38,20 @@ public class TodoFindResponse {
         this.user = user;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+    }
+
+    public static TodoFindResponse toTodoFindResponse(Todo todo) {
+        return new TodoFindResponse(
+                todo.getId(),
+                todo.getTitle(),
+                todo.getContents(),
+                todo.getWeather(),
+                new UserFindResponse(
+                        todo.getUser().getId(),
+                        todo.getUser().getEmail()
+                ),
+                todo.getCreatedAt(),
+                todo.getModifiedAt()
+        );
     }
 }

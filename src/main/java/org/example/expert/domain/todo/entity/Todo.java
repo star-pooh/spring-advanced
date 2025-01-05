@@ -37,7 +37,7 @@ public class Todo extends Timestamped {
     @OneToMany(mappedBy = "todo", cascade = CascadeType.PERSIST)
     private List<Manager> managers = new ArrayList<>();
 
-    public Todo(String title, String contents, String weather, User user) {
+    private Todo(String title, String contents, String weather, User user) {
         this.title = title;
         this.contents = contents;
         this.weather = weather;
@@ -49,5 +49,9 @@ public class Todo extends Timestamped {
     public void update(String title, String contents) {
         this.title = title;
         this.contents = contents;
+    }
+
+    public static Todo of(String title, String contents, String weather, User user) {
+        return new Todo(title, contents, weather, user);
     }
 }

@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/todos/{todoId}/comments")
 public class CommentController {
 
     private final CommentService commentService;
@@ -27,7 +28,7 @@ public class CommentController {
      * @param commentSaveRequest 댓글 생성에 필요한 요청 데이터
      * @return 생성된 댓글 정보
      */
-    @PostMapping("/todos/{todoId}/comments")
+    @PostMapping
     public ResponseEntity<CommentSaveResponse> saveComment(
             @Auth AuthUser authUser,
             @PathVariable long todoId,
@@ -41,7 +42,7 @@ public class CommentController {
      * @param todoId 일정 ID
      * @return 조회된 댓글 정보
      */
-    @GetMapping("/todos/{todoId}/comments")
+    @GetMapping
     public ResponseEntity<List<CommentFindResponse>> findAllComment(@PathVariable long todoId) {
         return ResponseEntity.ok(commentService.findAllComment(todoId));
     }

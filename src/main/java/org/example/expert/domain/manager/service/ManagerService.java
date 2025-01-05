@@ -3,6 +3,7 @@ package org.example.expert.domain.manager.service;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
+import org.example.expert.domain.common.util.ResponseMapper;
 import org.example.expert.domain.manager.dto.request.ManagerSaveRequest;
 import org.example.expert.domain.manager.dto.response.ManagerFindResponse;
 import org.example.expert.domain.manager.dto.response.ManagerSaveResponse;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,9 +58,9 @@ public class ManagerService {
         Manager newManagerUser = new Manager(managerUser, todo);
         Manager savedManagerUser = managerRepository.save(newManagerUser);
 
-        return new ManagerSaveResponse(
+        return ManagerSaveResponse.of(
                 savedManagerUser.getId(),
-                new UserFindResponse(managerUser.getId(), managerUser.getEmail())
+                UserFindResponse.of(managerUser.getId(), managerUser.getEmail())
         );
     }
 
@@ -76,15 +76,7 @@ public class ManagerService {
 
         List<Manager> managerList = managerRepository.findAllByTodoId(todo.getId());
 
-        List<ManagerFindResponse> dtoList = new ArrayList<>();
-        for (Manager manager : managerList) {
-            User user = manager.getUser();
-            dtoList.add(new ManagerFindResponse(
-                    manager.getId(),
-                    new UserFindResponse(user.getId(), user.getEmail())
-            ));
-        }
-        return dtoList;
+        return ResponseMapper.mapToList(managerList, ManagerFindResponse::toManagerFindResponse);
     }
 
     /**

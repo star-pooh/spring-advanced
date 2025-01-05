@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -21,7 +22,7 @@ public class UserController {
      * @param userId 유저 ID
      * @return 조회된 유저 정보
      */
-    @GetMapping("/users/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<UserFindResponse> findUserById(@PathVariable long userId) {
         return ResponseEntity.ok(userService.findUserById(userId));
     }
@@ -32,7 +33,7 @@ public class UserController {
      * @param authUser                  로그인한 유저 정보
      * @param userChangePasswordRequest 비밀번호 변경에 필요한 요청 데이터
      */
-    @PutMapping("/users")
+    @PutMapping
     // TODO : requestBody에 valid 추가
     public void changePassword(@Auth AuthUser authUser, @RequestBody UserChangePasswordRequest userChangePasswordRequest) {
         userService.changePassword(authUser.getId(), userChangePasswordRequest);

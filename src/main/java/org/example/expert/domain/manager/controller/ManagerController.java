@@ -17,12 +17,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/todos/{todoId}/managers")
 public class ManagerController {
 
     private final ManagerService managerService;
     private final JwtUtil jwtUtil;
-
-    // TODO : requestMapping?
 
     /**
      * 관리자 생성 API
@@ -32,7 +31,7 @@ public class ManagerController {
      * @param managerSaveRequest 관리자 생성에 필요한 요청 데이터
      * @return 생성된 관리자 정보
      */
-    @PostMapping("/todos/{todoId}/managers")
+    @PostMapping
     public ResponseEntity<ManagerSaveResponse> saveManager(
             @Auth AuthUser authUser,
             @PathVariable long todoId,
@@ -46,7 +45,7 @@ public class ManagerController {
      * @param todoId 일정 ID
      * @return 조회된 관리자 정보
      */
-    @GetMapping("/todos/{todoId}/managers")
+    @GetMapping
     public ResponseEntity<List<ManagerFindResponse>> findManagerByTodoId(@PathVariable long todoId) {
         return ResponseEntity.ok(managerService.findManagerByTodoId(todoId));
     }
@@ -58,13 +57,12 @@ public class ManagerController {
      * @param todoId      일정 ID
      * @param managerId   관리자 ID
      */
-    @DeleteMapping("/todos/{todoId}/managers/{managerId}")
+    @DeleteMapping("/{managerId}")
     public void deleteManager(
             @RequestHeader("Authorization") String bearerToken,
             @PathVariable long todoId,
             @PathVariable long managerId) {
-        // TODO : jwtUtil.substringToken?
-        Claims claims = jwtUtil.extractClaims(bearerToken.substring(7));
+        Claims claims = jwtUtil.extractClaims(jwtUtil.extractToken(bearerToken));
         long userId = Long.parseLong(claims.getSubject());
         managerService.deleteManager(userId, todoId, managerId);
     }

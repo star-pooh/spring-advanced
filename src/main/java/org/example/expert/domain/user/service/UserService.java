@@ -26,7 +26,7 @@ public class UserService {
      */
     public UserFindResponse findUserById(long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
-        return new UserFindResponse(user.getId(), user.getEmail());
+        return UserFindResponse.of(user.getId(), user.getEmail());
     }
 
     /**

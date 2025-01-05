@@ -9,8 +9,12 @@ public class UserFindResponse {
 
     private final String email;
 
-    public UserFindResponse(Long id, String email) {
+    private UserFindResponse(Long id, String email) {
         this.id = id;
         this.email = email;
+    }
+
+    public static UserFindResponse of(Long id, String email) {
+        return new UserFindResponse(id, email);
     }
 }
