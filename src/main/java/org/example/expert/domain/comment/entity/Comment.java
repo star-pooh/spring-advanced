@@ -10,7 +10,7 @@ import org.example.expert.domain.user.entity.User;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "comments")
+@Table(name = "comment")
 public class Comment extends Timestamped {
 
     @Id
