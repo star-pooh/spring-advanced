@@ -1,5 +1,6 @@
 package org.example.expert.domain.user.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.user.dto.request.UserChangeRoleRequest;
 import org.example.expert.domain.user.service.UserAdminService;
@@ -21,8 +22,7 @@ public class UserAdminController {
      * @param userChangeRoleRequest 유저 권한 변경에 필요한 요청 데이터
      */
     @PatchMapping("/admin/users/{userId}")
-    // TODO : requestBody에 valid 필요?
-    public void changeUserRole(@PathVariable long userId, @RequestBody UserChangeRoleRequest userChangeRoleRequest) {
+    public void changeUserRole(@PathVariable long userId, @Valid @RequestBody UserChangeRoleRequest userChangeRoleRequest) {
         userAdminService.changeUserRole(userId, userChangeRoleRequest);
     }
 }

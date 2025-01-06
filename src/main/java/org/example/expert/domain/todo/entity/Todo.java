@@ -47,12 +47,6 @@ public class Todo extends Timestamped {
         this.managers.add(new Manager(user, this));
     }
 
-    // TODO : 불필요한 코드?
-    public void update(String title, String contents) {
-        this.title = title;
-        this.contents = contents;
-    }
-
     public static Todo of(String title, String contents, String weather, User user) {
         return new Todo(title, contents, weather, user);
     }

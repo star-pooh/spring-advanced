@@ -33,11 +33,6 @@ public class Comment extends Timestamped {
         this.todo = todo;
     }
 
-    // TODO : 불필요한 코드?
-    public void update(String contents) {
-        this.contents = contents;
-    }
-
     public static Comment of(String contents, User user, Todo todo) {
         return new Comment(contents, user, todo);
     }

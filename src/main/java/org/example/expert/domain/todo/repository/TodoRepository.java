@@ -11,6 +11,4 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     @EntityGraph(attributePaths = {"comments", "managers"})
     Page<Todo> findAllByOrderByModifiedAtDesc(Pageable pageable);
 
-    // TODO : 불필요한 코드?
-    int countById(Long todoId);
 }
