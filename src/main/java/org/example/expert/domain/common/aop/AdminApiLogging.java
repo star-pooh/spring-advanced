@@ -27,7 +27,7 @@ public class AdminApiLogging {
     private final ObjectMapper objectMapper;
 
     @Around("changeUserRoleMethod() || deleteCommentMethod()")
-    public Object testLog(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object adminApiLogging(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
 
