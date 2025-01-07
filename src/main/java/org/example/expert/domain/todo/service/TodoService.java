@@ -78,9 +78,14 @@ public class TodoService {
      * @return 조회된 일정 정보
      */
     public TodoFindResponse findTodoById(long todoId) {
-        Todo todo = todoRepository.findById(todoId)
-                .orElseThrow(() -> new InvalidRequestException("Todo not found"));
+        Todo todo = getTodoById(todoId);
 
         return TodoFindResponse.toTodoFindResponse(todo);
+    }
+
+    @Transactional(readOnly = true)
+    public Todo getTodoById(long todoId) {
+        return todoRepository.findById(todoId)
+                .orElseThrow(() -> new InvalidRequestException("Todo not found"));
     }
 }
