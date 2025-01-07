@@ -10,6 +10,7 @@ import org.example.expert.domain.manager.dto.response.ManagerSaveResponse;
 import org.example.expert.domain.manager.entity.Manager;
 import org.example.expert.domain.manager.repository.ManagerRepository;
 import org.example.expert.domain.todo.entity.Todo;
+import org.example.expert.domain.todo.helper.TodoValidator;
 import org.example.expert.domain.todo.service.TodoService;
 import org.example.expert.domain.user.dto.response.UserFindResponse;
 import org.example.expert.domain.user.entity.User;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -47,9 +47,7 @@ public class ManagerService {
         // 일정을 만든 유저
         Todo todo = todoService.getTodoById(todoId);
 
-        if (Objects.isNull(todo.getUser())) {
-            throw new InvalidRequestException("담당자를 등록하려고 하는 유저가 일정을 만든 유저가 유효하지 않습니다.");
-        }
+        TodoValidator.verifyTodoUser(todo, authUser.getId());
 
         User managerUser = userService.getUserById(managerSaveRequest.getManagerUserId());
 
@@ -88,9 +86,7 @@ public class ManagerService {
         User user = userService.getUserById(userId);
         Todo todo = todoService.getTodoById(todoId);
 
-        if (todo.getUser() == null || !ObjectUtils.nullSafeEquals(user.getId(), todo.getUser().getId())) {
-            throw new InvalidRequestException("해당 일정을 만든 유저가 유효하지 않습니다.");
-        }
+        TodoValidator.verifyTodoUser(todo, user.getId());
 
         Manager manager = managerRepository.findById(managerId)
                 .orElseThrow(() -> new InvalidRequestException("Manager not found"));
