@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.entity.Timestamped;
+import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.enums.UserRole;
 
 @Getter
@@ -42,6 +43,12 @@ public class User extends Timestamped {
     }
 
     public void changePassword(String password) {
+        if (password.length() < 8 ||
+                password.matches(".*\\d.*") ||
+                password.matches(".*[A-Z].*")) {
+            throw new InvalidRequestException("새 비밀번호는 8자 이상이어야 하고, 숫자와 대문자를 포함해야 합니다.");
+        }
+
         this.password = password;
     }
 
