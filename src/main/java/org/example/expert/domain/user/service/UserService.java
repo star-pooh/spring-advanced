@@ -25,7 +25,7 @@ public class UserService {
      * @return 조회된 유저 정보
      */
     public UserFindResponse findUserById(long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
+        User user = getUserById(userId);
         return UserFindResponse.of(user.getId(), user.getEmail());
     }
 
@@ -49,6 +49,11 @@ public class UserService {
         }
 
         user.changePassword(passwordEncoder.encode(userChangePasswordRequest.getNewPassword()));
+    }
+
+    @Transactional(readOnly = true)
+    public User getUserById(long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
     }
 }
 
